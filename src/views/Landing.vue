@@ -246,6 +246,7 @@ import {
   BookOpenIcon,
   ChartBarIcon,
   XMarkIcon,
+  LightBulbIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon } from '@heroicons/vue/20/solid'
 
@@ -258,73 +259,73 @@ const navigation = [
 
 const features = [
   {
-    name: 'Career Path Visualization',
-    description: 'See real career trajectories of alumni from your program through interactive LinkedIn data visualizations.',
-    icon: ChartBarIcon,
-  },
-  {
-    name: 'Smart Recommendations',
-    description: 'Get personalized career and company recommendations based on successful paths of people with similar profiles.',
-    icon: UserGroupIcon,
-  },
-  {
-    name: 'AI-Powered Insights',
-    description: 'Leverage advanced LLM technology to get detailed insights about potential career paths and opportunities.',
+    name: 'Smart Educational Planning',
+    description: 'Get personalized guidance on course selection, majors, and academic pathways based on your career goals and interests.',
     icon: AcademicCapIcon,
   },
   {
-    name: 'Network Analytics',
-    description: 'Analyze industry connections and company relationships to identify the most promising opportunities.',
-    icon: ArrowPathIcon,
+    name: 'Career Path Insights',
+    description: 'Explore potential career paths and opportunities aligned with your educational background and aspirations.',
+    icon: ChartBarIcon,
+  },
+  {
+    name: 'AI-Enhanced Counseling',
+    description: 'Receive tailored advice and recommendations powered by advanced AI technology to support your academic and career decisions.',
+    icon: LightBulbIcon,
+  },
+  {
+    name: 'Alumni Network Analysis',
+    description: 'Learn from successful graduates with similar backgrounds and connect with mentors in your desired field.',
+    icon: UserGroupIcon,
   },
 ]
 
 const tiers = [
   {
-    name: 'Quick Insight',
+    name: 'Quick Consultation',
     id: 'tier-quick',
     href: '#',
-    price: '$9',
-    description: 'One-time career path analysis and recommendations.',
+    price: '$29',
+    description: 'One-time counseling session with basic guidance.',
     features: [
-      '24-hour access',
-      'Basic career path visualization',
-      'Top 3 company recommendations',
-      'Single program analysis',
-      'Basic AI insights'
+      '60-minute consultation',
+      'Basic academic planning',
+      'Major selection guidance',
+      'Course recommendations',
+      'Basic career insights'
     ],
     mostPopular: false,
   },
   {
-    name: 'Career Explorer',
+    name: 'Academic Explorer',
     id: 'tier-explorer',
     href: '#',
-    price: '$29',
-    description: 'Comprehensive career exploration and planning tools.',
+    price: '$99',
+    description: 'Comprehensive educational planning and guidance.',
     features: [
-      'Lifetime access',
-      'Full career path visualization',
-      'Unlimited recommendations',
-      'Cross-program analysis',
-      'Advanced AI insights',
-      'Monthly data updates'
+      'Unlimited consultations',
+      'Detailed academic roadmap',
+      'Major & career alignment',
+      'Course planning assistance',
+      'AI-powered recommendations',
+      'Regular progress check-ins'
     ],
     mostPopular: true,
   },
   {
-    name: 'Professional',
-    id: 'tier-pro',
+    name: 'Premium Guidance',
+    id: 'tier-premium',
     href: '#',
-    price: '$59',
-    description: 'Advanced analytics and personalized guidance.',
+    price: '$199',
+    description: 'Complete educational and career counseling package.',
     features: [
       'All Explorer features',
-      'Real-time data updates',
-      'Custom data filtering',
-      'Trend predictions',
-      'API access',
-      'Priority support',
-      'Custom reports'
+      'Priority counseling access',
+      'Personalized study plans',
+      'Career path planning',
+      'Alumni mentorship matching',
+      'Graduate school guidance',
+      'Interview preparation'
     ],
     mostPopular: false,
   },
@@ -333,18 +334,18 @@ const tiers = [
 const faqs = [
   {
     id: 1,
-    question: "How accurate is the career path data?",
-    answer: "Our data is sourced directly from LinkedIn profiles and updated regularly. We analyze thousands of career trajectories to provide accurate insights about real career paths from your program.",
+    question: "How does your counseling service work?",
+    answer: "Our platform combines expert educational counselors with AI technology to provide personalized academic guidance. We help you make informed decisions about your education and career path through one-on-one consultations and data-driven insights.",
   },
   {
     id: 2,
-    question: "How do the recommendations work?",
-    answer: "We use collaborative filtering algorithms to analyze career paths of professionals with similar backgrounds, skills, and educational history to provide personalized recommendations.",
+    question: "What kind of guidance can I expect?",
+    answer: "We provide comprehensive educational guidance including course selection, major choices, career path alignment, study strategies, and graduate school planning. Our AI system helps personalize recommendations based on your goals and academic profile.",
   },
   {
     id: 3,
-    question: "What kind of AI insights do you provide?",
-    answer: "Our AI system analyzes trends, job requirements, and career trajectories to provide detailed insights about potential opportunities, skill requirements, and career development strategies.",
+    question: "How do you match students with mentors?",
+    answer: "We connect students with successful alumni and professionals who share similar academic backgrounds and career interests. Our matching system considers factors like field of study, career goals, and personal interests to ensure meaningful mentorship relationships.",
   },
 ]
 
@@ -376,10 +377,10 @@ const footerNavigation = {
 const mobileMenuOpen = ref(false)
 
 // Hero section text
-const heroTitle = "Data-Driven Career Planning"
-const heroDescription = "Make informed career decisions with real-world data. Our platform analyzes thousands of LinkedIn profiles to show you proven career paths and opportunities from your program."
+const heroTitle = "AI-Powered Educational Counseling"
+const heroDescription = "Make informed decisions about your academic journey with personalized guidance. Our platform combines expert counseling with AI technology to help you achieve your educational and career goals."
 
 // Feature section header
-const featureTitle = "AI-Powered Career Intelligence"
-const featureDescription = "Leverage the power of data analytics and artificial intelligence to understand and plan your career path."
+const featureTitle = "Intelligent Educational Guidance"
+const featureDescription = "Experience the future of educational counseling with our AI-enhanced platform that provides personalized academic planning and career guidance."
 </script> 
