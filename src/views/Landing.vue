@@ -285,7 +285,7 @@ const tiers = [
     name: 'Quick Consultation',
     id: 'tier-quick',
     href: '#',
-    price: '$29',
+    price: '$9.9',
     description: 'One-time counseling session with basic guidance.',
     features: [
       '60-minute consultation',
@@ -300,7 +300,7 @@ const tiers = [
     name: 'Academic Explorer',
     id: 'tier-explorer',
     href: '#',
-    price: '$99',
+    price: '$29.9',
     description: 'Comprehensive educational planning and guidance.',
     features: [
       'Unlimited consultations',
@@ -316,7 +316,7 @@ const tiers = [
     name: 'Premium Guidance',
     id: 'tier-premium',
     href: '#',
-    price: '$199',
+    price: '$59.9',
     description: 'Complete educational and career counseling package.',
     features: [
       'All Explorer features',
