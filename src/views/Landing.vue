@@ -299,7 +299,7 @@ const tiers = [
     name: 'Career Explorer',
     id: 'tier-explorer',
     href: '#',
-    price: '$199',
+    price: '$29',
     description: 'Comprehensive career exploration and planning tools.',
     features: [
       'Lifetime access',
@@ -315,7 +315,7 @@ const tiers = [
     name: 'Professional',
     id: 'tier-pro',
     href: '#',
-    price: '$499',
+    price: '$59',
     description: 'Advanced analytics and personalized guidance.',
     features: [
       'All Explorer features',
