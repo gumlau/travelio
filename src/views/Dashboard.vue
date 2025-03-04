@@ -1,376 +1,302 @@
 <template>
-  <div>
-    <TransitionRoot as="template" :show="sidebarOpen">
-      <Dialog class="relative z-50 lg:hidden" @close="sidebarOpen = false">
-        <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
-          <div class="fixed inset-0 bg-gray-900/80" />
-        </TransitionChild>
-
-        <div class="fixed inset-0 flex">
-          <TransitionChild as="template" enter="transition ease-in-out duration-300 transform" enter-from="-translate-x-full" enter-to="translate-x-0" leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0" leave-to="-translate-x-full">
-            <DialogPanel class="relative mr-16 flex w-full max-w-xs flex-1">
-              <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-300" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-                  <button type="button" class="-m-2.5 p-2.5" @click="sidebarOpen = false">
-                    <span class="sr-only">Close sidebar</span>
-                    <XMarkIcon class="size-6 text-white" aria-hidden="true" />
-                  </button>
-                </div>
-              </TransitionChild>
-              <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-                <div class="flex h-16 shrink-0 items-center">
-                  <img class="h-8 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="EduAdvisor" />
-                </div>
-                <nav class="flex flex-1 flex-col">
-                  <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                    <li>
-                      <ul role="list" class="-mx-2 space-y-1">
-                        <li v-for="item in navigation" :key="item.name">
-                          <a :href="item.href" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600', 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold']">
-                            <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'size-6 shrink-0']" aria-hidden="true" />
-                            {{ item.name }}
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="mt-auto">
-                      <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
-                        <Cog6ToothIcon class="size-6 shrink-0 text-gray-400 group-hover:text-indigo-600" aria-hidden="true" />
-                        Settings
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </DialogPanel>
-          </TransitionChild>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 justify-between">
+          <div class="flex">
+            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <a href="#" class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900">Course Matching</a>
+            </div>
+          </div>
         </div>
-      </Dialog>
-    </TransitionRoot>
-
-    <!-- Static sidebar for desktop -->
-    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-      <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
-        <div class="flex h-16 shrink-0 items-center">
-          <img class="h-8 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="EduAdvisor" />
-        </div>
-        <nav class="flex flex-1 flex-col">
-          <ul role="list" class="flex flex-1 flex-col gap-y-7">
-            <li>
-              <ul role="list" class="-mx-2 space-y-1">
-                <li v-for="item in navigation" :key="item.name">
-                  <a :href="item.href" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600', 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold']">
-                    <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'size-6 shrink-0']" aria-hidden="true" />
-                    {{ item.name }}
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="mt-auto">
-              <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
-                <Cog6ToothIcon class="size-6 shrink-0 text-gray-400 group-hover:text-indigo-600" aria-hidden="true" />
-                Settings
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </div>
+    </nav>
 
-    <div class="lg:pl-72">
-      <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-        <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="sidebarOpen = true">
-          <span class="sr-only">Open sidebar</span>
-          <Bars3Icon class="size-6" aria-hidden="true" />
-        </button>
+    <!-- Main Content -->
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <!-- Search Section -->
+      <div class="bg-white shadow sm:rounded-lg mb-8">
+        <div class="px-4 py-5 sm:p-6">
+          <h2 class="text-base font-semibold leading-6 text-gray-900">Find Matching Courses</h2>
+          <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <!-- Home University Combobox -->
+            <Combobox as="div" v-model="selectedHomeUniversity" @update:modelValue="homeQuery = ''">
+              <ComboboxLabel class="block text-sm font-medium text-gray-700">Home University</ComboboxLabel>
+              <div class="relative mt-2">
+                <ComboboxInput 
+                  class="block w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  @change="homeQuery = $event.target.value" 
+                  :display-value="(uni) => uni"
+                  placeholder="Search university..."
+                />
+                <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </ComboboxButton>
 
-        <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
+                <TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
+                  <ComboboxOptions class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    <ComboboxOption 
+                      v-for="university in filteredHomeUniversities" 
+                      :key="university" 
+                      :value="university" 
+                      as="template" 
+                      v-slot="{ active, selected }"
+                    >
+                      <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
+                        <span :class="['block truncate', selected && 'font-semibold']">{{ university }}</span>
+                        <span v-if="selected" :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
+                          <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </li>
+                    </ComboboxOption>
+                  </ComboboxOptions>
+                </TransitionRoot>
+              </div>
+            </Combobox>
 
-        <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-          <form class="grid flex-1 grid-cols-1" action="#" method="GET">
-            <input type="search" name="search" aria-label="Search careers" class="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-gray-900 outline-none placeholder:text-gray-400 sm:text-sm/6" placeholder="Search careers or skills" />
-            <MagnifyingGlassIcon class="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-400" aria-hidden="true" />
-          </form>
-          <div class="flex items-center gap-x-4 lg:gap-x-6">
-            <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-              <span class="sr-only">View notifications</span>
-              <BellIcon class="size-6" aria-hidden="true" />
+            <!-- Host University Combobox -->
+            <Combobox as="div" v-model="selectedHostUniversity" @update:modelValue="hostQuery = ''">
+              <ComboboxLabel class="block text-sm font-medium text-gray-700">Host University</ComboboxLabel>
+              <div class="relative mt-2">
+                <ComboboxInput 
+                  class="block w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  @change="hostQuery = $event.target.value" 
+                  :display-value="(uni) => uni"
+                  placeholder="Search university..."
+                />
+                <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </ComboboxButton>
+
+                <TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
+                  <ComboboxOptions class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    <ComboboxOption 
+                      v-for="university in filteredHostUniversities" 
+                      :key="university" 
+                      :value="university" 
+                      as="template" 
+                      v-slot="{ active, selected }"
+                    >
+                      <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
+                        <span :class="['block truncate', selected && 'font-semibold']">{{ university }}</span>
+                        <span v-if="selected" :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']">
+                          <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </li>
+                    </ComboboxOption>
+                  </ComboboxOptions>
+                </TransitionRoot>
+              </div>
+            </Combobox>
+          </div>
+
+          <div v-if="selectedHomeUniversity" class="mt-6">
+            <label class="block text-sm font-medium text-gray-700">Select Your Courses</label>
+            <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div v-for="course in homeCourses" :key="course.code" class="relative flex items-start">
+                <div class="flex h-6 items-center">
+                  <input
+                    :id="course.code"
+                    v-model="selectedCourses"
+                    :value="course"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                </div>
+                <div class="ml-3 text-sm leading-6">
+                  <label :for="course.code" class="font-medium text-gray-900">{{ course.code }}</label>
+                  <p class="text-gray-500">{{ course.name }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <button
+              @click="findMatches"
+              :disabled="!canSearch"
+              class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-300"
+            >
+              Find Matching Courses
             </button>
-
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
-
-            <Menu as="div" class="relative">
-              <MenuButton class="-m-1.5 flex items-center p-1.5">
-                <span class="sr-only">Open user menu</span>
-                <img class="size-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                <span class="hidden lg:flex lg:items-center">
-                  <span class="ml-4 text-sm/6 font-semibold text-gray-900" aria-hidden="true">Guest User</span>
-                  <ChevronDownIcon class="ml-2 size-5 text-gray-400" aria-hidden="true" />
-                </span>
-              </MenuButton>
-              <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                <MenuItems class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                  <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                    <a :href="item.href" :class="[active ? 'bg-gray-50 outline-none' : '', 'block px-3 py-1 text-sm/6 text-gray-900']">{{ item.name }}</a>
-                  </MenuItem>
-                </MenuItems>
-              </transition>
-            </Menu>
           </div>
         </div>
       </div>
 
-      <main class="py-10">
-        <div class="px-4 sm:px-6 lg:px-8">
-          <!-- Form section -->
-          <form>
-            <div class="space-y-12">
-              <div class="border-b border-gray-900/10 pb-12">
-                <h2 class="text-base/7 font-semibold text-gray-900">Career Profile</h2>
-                <p class="mt-1 text-sm/6 text-gray-600">This information will be used to analyze your career path and provide personalized recommendations.</p>
-
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                  <div class="sm:col-span-4">
-                    <label for="linkedin" class="block text-sm/6 font-medium text-gray-900">LinkedIn Profile URL</label>
-                    <div class="mt-2">
-                      <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                        <div class="shrink-0 select-none text-base text-gray-500 sm:text-sm/6">linkedin.com/in/</div>
-                        <input type="text" name="linkedin" id="linkedin" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="johndoe" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-span-full">
-                    <label for="career-goals" class="block text-sm/6 font-medium text-gray-900">Career Goals</label>
-                    <div class="mt-2">
-                      <textarea name="career-goals" id="career-goals" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Describe your career aspirations and goals..." />
-                    </div>
-                    <p class="mt-3 text-sm/6 text-gray-600">What are your career objectives and what kind of roles interest you?</p>
+      <!-- Results Section -->
+      <div v-if="matchResults.length > 0" class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+          <h2 class="text-base font-semibold leading-6 text-gray-900">Matching Results</h2>
+          <div class="mt-4 space-y-6">
+            <div v-for="(result, index) in matchResults" :key="index" class="border-t border-gray-200 pt-4">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900">{{ result.homeCourse.code }}: {{ result.homeCourse.name }}</h3>
+                  <div class="mt-1">
+                    <p class="text-sm text-gray-500">Credits: {{ result.homeCourse.credits }}</p>
                   </div>
                 </div>
-              </div>
-
-              <div class="border-b border-gray-900/10 pb-12">
-                <h2 class="text-base/7 font-semibold text-gray-900">Educational Background</h2>
-                <p class="mt-1 text-sm/6 text-gray-600">Tell us about your academic journey to help us find relevant career paths.</p>
-
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                  <div class="sm:col-span-3">
-                    <label for="university" class="block text-sm/6 font-medium text-gray-900">University</label>
-                    <div class="mt-2">
-                      <input type="text" name="university" id="university" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                    </div>
-                  </div>
-
-                  <div class="sm:col-span-3">
-                    <label for="major" class="block text-sm/6 font-medium text-gray-900">Major/Program</label>
-                    <div class="mt-2">
-                      <input type="text" name="major" id="major" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                    </div>
-                  </div>
-
-                  <div class="sm:col-span-2">
-                    <label for="degree" class="block text-sm/6 font-medium text-gray-900">Degree</label>
-                    <div class="mt-2 grid grid-cols-1">
-                      <select id="degree" name="degree" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                        <option>Bachelor's</option>
-                        <option>Master's</option>
-                        <option>PhD</option>
-                        <option>Other</option>
-                      </select>
-                      <ChevronDownIcon class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" aria-hidden="true" />
-                    </div>
-                  </div>
-
-                  <div class="sm:col-span-2">
-                    <label for="graduation-year" class="block text-sm/6 font-medium text-gray-900">Graduation Year</label>
-                    <div class="mt-2">
-                      <input type="number" name="graduation-year" id="graduation-year" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="2024" />
-                    </div>
-                  </div>
+                <div class="ml-4 flex-shrink-0">
+                  <span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
+                    {{ result.matchScore }}% Match
+                  </span>
                 </div>
               </div>
-
-              <div class="border-b border-gray-900/10 pb-12">
-                <h2 class="text-base/7 font-semibold text-gray-900">Skills & Interests</h2>
-                <p class="mt-1 text-sm/6 text-gray-600">Help us understand your technical skills and career interests.</p>
-
-                <div class="mt-10 space-y-10">
-                  <fieldset>
-                    <legend class="text-sm/6 font-semibold text-gray-900">Areas of Interest</legend>
-                    <div class="mt-6 space-y-6">
-                      <div class="flex gap-3">
-                        <div class="flex h-6 shrink-0 items-center">
-                          <div class="group grid size-4 grid-cols-1">
-                            <input id="software-dev" name="interests" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                            <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white" viewBox="0 0 14 14" fill="none">
-                              <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div class="text-sm/6">
-                          <label for="software-dev" class="font-medium text-gray-900">Software Development</label>
-                          <p class="text-gray-500">Web development, mobile apps, cloud computing</p>
-                        </div>
+              <div class="mt-4">
+                <h4 class="text-sm font-medium text-gray-900">Matching Courses:</h4>
+                <ul class="mt-2 divide-y divide-gray-200">
+                  <li v-for="match in result.matches" :key="match.code" class="py-2">
+                    <div class="flex items-start justify-between">
+                      <div>
+                        <p class="text-sm font-medium text-gray-900">{{ match.code }}: {{ match.name }}</p>
+                        <p class="mt-1 text-sm text-gray-500">Credits: {{ match.credits }}</p>
                       </div>
-                      <div class="flex gap-3">
-                        <div class="flex h-6 shrink-0 items-center">
-                          <div class="group grid size-4 grid-cols-1">
-                            <input id="data-science" name="interests" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                            <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white" viewBox="0 0 14 14" fill="none">
-                              <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div class="text-sm/6">
-                          <label for="data-science" class="font-medium text-gray-900">Data Science & AI</label>
-                          <p class="text-gray-500">Machine learning, data analytics, artificial intelligence</p>
-                        </div>
-                      </div>
-                      <div class="flex gap-3">
-                        <div class="flex h-6 shrink-0 items-center">
-                          <div class="group grid size-4 grid-cols-1">
-                            <input id="product-management" name="interests" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                            <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white" viewBox="0 0 14 14" fill="none">
-                              <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div class="text-sm/6">
-                          <label for="product-management" class="font-medium text-gray-900">Product Management</label>
-                          <p class="text-gray-500">Product strategy, user experience, market analysis</p>
-                        </div>
+                      <div class="ml-4 flex-shrink-0">
+                        <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium" :class="getMatchClass(match.similarity)">
+                          {{ match.similarity }}% Similar
+                        </span>
                       </div>
                     </div>
-                  </fieldset>
-
-                  <fieldset>
-                    <legend class="text-sm/6 font-semibold text-gray-900">Experience Level</legend>
-                    <div class="mt-6 space-y-6">
-                      <div class="flex items-center gap-x-3">
-                        <input id="entry-level" name="experience" type="radio" checked class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                        <label for="entry-level" class="block text-sm/6 font-medium text-gray-900">Entry Level (0-2 years)</label>
-                      </div>
-                      <div class="flex items-center gap-x-3">
-                        <input id="mid-level" name="experience" type="radio" class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                        <label for="mid-level" class="block text-sm/6 font-medium text-gray-900">Mid Level (3-5 years)</label>
-                      </div>
-                      <div class="flex items-center gap-x-3">
-                        <input id="senior-level" name="experience" type="radio" class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" />
-                        <label for="senior-level" class="block text-sm/6 font-medium text-gray-900">Senior Level (5+ years)</label>
-                      </div>
-                    </div>
-                  </fieldset>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-6 flex items-center justify-end gap-x-6">
-              <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
-              <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Analyze Career Path</button>
-            </div>
-          </form>
-
-          <!-- Analysis Results Section -->
-          <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 class="text-base font-semibold text-gray-900">Career Path Visualization</h3>
-              <div class="mt-4 h-64 bg-gray-50">
-                <!-- Placeholder for visualization -->
-              </div>
-            </div>
-
-            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 class="text-base font-semibold text-gray-900">Skills Analysis</h3>
-              <div class="mt-4 h-64 bg-gray-50">
-                <!-- Placeholder for skills chart -->
-              </div>
-            </div>
-
-            <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 class="text-base font-semibold text-gray-900">Network Insights</h3>
-              <div class="mt-4 h-64 bg-gray-50">
-                <!-- Placeholder for network graph -->
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import {
-  Dialog,
-  DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  TransitionChild,
+  Combobox,
+  ComboboxButton,
+  ComboboxInput,
+  ComboboxLabel,
+  ComboboxOption,
+  ComboboxOptions,
   TransitionRoot,
 } from '@headlessui/vue'
-import {
-  Bars3Icon,
-  BellIcon,
-  ChartBarIcon,
-  Cog6ToothIcon,
-  DocumentChartBarIcon,
-  HomeIcon,
-  LightBulbIcon,
-  UserGroupIcon,
-  XMarkIcon,
-  PhotoIcon,
-  UserCircleIcon,
-} from '@heroicons/vue/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 
-const navigation = [
-  { name: 'Overview', href: '#', icon: HomeIcon, current: true },
-  { name: 'Career Analytics', href: '#', icon: ChartBarIcon, current: false },
-  { name: 'Skills Assessment', href: '#', icon: DocumentChartBarIcon, current: false },
-  { name: 'Network Analysis', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'AI Insights', href: '#', icon: LightBulbIcon, current: false },
+// Mock Universities
+const universities = [
+  'University of Sydney',
+  'National University of Singapore',
+  'University of California, Berkeley',
+  'University of Tokyo',
+  'University of Hong Kong'
 ]
 
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
+// Mock Course Data
+const courseDatabase = {
+  'University of Sydney': [
+    { code: 'COMP2022', name: 'Models of Computation', credits: 6, description: 'Introduction to theoretical computer science' },
+    { code: 'INFO2222', name: 'Computing Technology', credits: 6, description: 'Understanding computing systems' },
+    { code: 'DATA2002', name: 'Data Analytics', credits: 6, description: 'Introduction to data science and analytics' },
+    { code: 'MATH2069', name: 'Discrete Mathematics', credits: 6, description: 'Mathematical structures in computing' }
+  ],
+  'National University of Singapore': [
+    { code: 'CS2040', name: 'Data Structures and Algorithms', credits: 4, description: 'Fundamental algorithms and data structures' },
+    { code: 'CS2103T', name: 'Software Engineering', credits: 4, description: 'Software development principles' },
+    { code: 'CS2102', name: 'Database Systems', credits: 4, description: 'Database design and implementation' },
+    { code: 'MA2213', name: 'Discrete Mathematics', credits: 4, description: 'Discrete structures and methods' }
+  ],
+  'University of California, Berkeley': [
+    { code: 'CS61A', name: 'Structure and Interpretation', credits: 4, description: 'Programming concepts and techniques' },
+    { code: 'CS61B', name: 'Data Structures', credits: 4, description: 'Fundamental data structures' },
+    { code: 'CS70', name: 'Discrete Mathematics', credits: 4, description: 'Mathematical foundations of computer science' },
+    { code: 'DATA100', name: 'Principles of Data Science', credits: 4, description: 'Introduction to data analysis' }
+  ]
+}
 
-const sidebarOpen = ref(false)
+// Updated State
+const selectedHomeUniversity = ref('')
+const selectedHostUniversity = ref('')
+const selectedCourses = ref([])
+const matchResults = ref([])
+const homeQuery = ref('')
+const hostQuery = ref('')
 
-// Form data
-const formData = ref({
-  linkedin: '',
-  careerGoals: '',
-  university: '',
-  major: '',
-  degree: "Bachelor's",
-  graduationYear: new Date().getFullYear(),
-  interests: [],
-  experienceLevel: 'entry-level'
-})
+// New Computed Properties for Filtering Universities
+const filteredHomeUniversities = computed(() =>
+  homeQuery.value === ''
+    ? universities
+    : universities.filter((uni) =>
+        uni.toLowerCase().includes(homeQuery.value.toLowerCase())
+      )
+)
 
-// Form submission handler
-const handleSubmit = async (event) => {
-  event.preventDefault()
-  
-  try {
-    // Here we'll implement the LinkedIn data analysis and career path visualization
-    console.log('Analyzing career path with data:', formData.value)
-    
-    // TODO: 
-    // 1. Call LinkedIn API to fetch profile data
-    // 2. Apply collaborative filtering for recommendations
-    // 3. Use LLM for generating career insights
-    // 4. Update visualizations with the results
-    
-  } catch (error) {
-    console.error('Error analyzing career path:', error)
+const filteredHostUniversities = computed(() =>
+  hostQuery.value === ''
+    ? universities
+    : universities.filter((uni) =>
+        uni.toLowerCase().includes(hostQuery.value.toLowerCase())
+      )
+)
+
+// Rest of the script stays the same
+const homeCourses = computed(() => courseDatabase[selectedHomeUniversity.value] || [])
+const hostCourses = computed(() => courseDatabase[selectedHostUniversity.value] || [])
+
+const canSearch = computed(() => 
+  selectedHomeUniversity.value && 
+  selectedHostUniversity.value && 
+  selectedCourses.value.length > 0
+)
+
+// Methods
+const findMatches = () => {
+  matchResults.value = selectedCourses.value.map(course => {
+    const matches = hostCourses.value
+      .map(hostCourse => ({
+        ...hostCourse,
+        similarity: calculateSimilarity(course, hostCourse)
+      }))
+      .filter(match => match.similarity >= 60)
+      .sort((a, b) => b.similarity - a.similarity)
+      .slice(0, 3)
+
+    return {
+      homeCourse: course,
+      matches,
+      matchScore: matches.length > 0 ? Math.round(matches[0].similarity) : 0
+    }
+  })
+}
+
+const calculateSimilarity = (course1, course2) => {
+  // Simulate course matching algorithm
+  // In a real application, this would use NLP and more sophisticated matching
+  let similarity = 0
+
+  // Match based on course name
+  if (course1.name.toLowerCase() === course2.name.toLowerCase()) {
+    similarity += 50
+  } else if (course1.name.toLowerCase().includes(course2.name.toLowerCase()) ||
+             course2.name.toLowerCase().includes(course1.name.toLowerCase())) {
+    similarity += 30
   }
+
+  // Match based on credits
+  if (course1.credits === course2.credits) {
+    similarity += 30
+  } else {
+    similarity += 20 * (1 - Math.abs(course1.credits - course2.credits) / Math.max(course1.credits, course2.credits))
+  }
+
+  // Add some randomness to simulate other factors
+  similarity += Math.random() * 20
+
+  return Math.min(Math.round(similarity), 100)
+}
+
+const getMatchClass = (similarity) => {
+  if (similarity >= 80) return 'bg-green-50 text-green-700'
+  if (similarity >= 70) return 'bg-yellow-50 text-yellow-700'
+  return 'bg-gray-50 text-gray-700'
 }
 </script> 
