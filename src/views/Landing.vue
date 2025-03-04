@@ -64,7 +64,19 @@
             </div>
             <div class="mt-16 flow-root sm:mt-24">
               <div class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80" alt="App screenshot" width="2432" height="1442" class="rounded-md shadow-2xl ring-1 ring-gray-900/10" />
+                <video
+                  v-if="videoUrl"
+                  class="rounded-md shadow-2xl ring-1 ring-gray-900/10 w-full"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  @error="(e) => console.error('Video error:', e)"
+                >
+                  <source :src="videoUrl" type="video/mp4">
+                  <source :src="videoUrl" type="video/quicktime">
+                  Your browser does not support the video tag.
+                </video>
               </div>
             </div>
           </div>
@@ -243,7 +255,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import {
   ArrowPathIcon,
@@ -391,4 +403,13 @@ const heroDescription = "Stop spending hours manually searching for equivalent c
 // Feature section header
 const featureTitle = "Smart Course Credit Matching"
 const featureDescription = "Save time and ensure successful credit transfers with our AI-powered platform that automatically matches courses between universities and provides detailed similarity analysis."
+
+const videoUrl = ref('')
+
+onMounted(() => {
+  // 动态导入视频
+  import('/video1.mov').then(module => {
+    videoUrl.value = module.default
+  }).catch(err => console.error('Error loading video:', err))
+})
 </script> 
