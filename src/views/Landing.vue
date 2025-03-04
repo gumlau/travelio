@@ -5,7 +5,7 @@
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
           <a href="#" class="-m-1.5 p-1.5">
-            <span class="sr-only">EduAdvisor</span>
+            <span class="sr-only">Travelio</span>
             <img class="h-8 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="" />
           </a>
         </div>
@@ -19,17 +19,14 @@
           <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm/6 font-semibold text-gray-900">{{ item.name }}</a>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" class="text-sm/6 font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+          <a href="#signup" class="text-sm/6 font-semibold text-indigo-600">Get Early Access</a>
         </div>
       </nav>
       <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
         <div class="fixed inset-0 z-50" />
         <DialogPanel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div class="flex items-center justify-between">
-            <a href="#" class="-m-1.5 p-1.5">
-              <span class="sr-only">EduAdvisor</span>
-              <img class="h-8 w-auto" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-            </a>
+            
             <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
               <span class="sr-only">Close menu</span>
               <XMarkIcon class="size-6" aria-hidden="true" />
@@ -61,8 +58,8 @@
               <h1 class="text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">{{ heroTitle }}</h1>
               <p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">{{ heroDescription }}</p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
-                <router-link to="/dashboard" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Try Quick Insight</router-link>
-                <a href="#" class="text-sm/6 font-semibold text-gray-900">View Demo <span aria-hidden="true">→</span></a>
+                <a href="#signup" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get Started</a>
+                <a href="#features" class="text-sm/6 font-semibold text-gray-900">Learn more <span aria-hidden="true">→</span></a>
               </div>
             </div>
             <div class="mt-16 flow-root sm:mt-24">
@@ -179,18 +176,28 @@
           <h2 class="text-balance text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Start your journey to academic success today</h2>
           <p class="mx-auto mt-6 max-w-xl text-pretty text-lg/8 text-gray-600">Join thousands of students who have already transformed their academic journey with EduAdvisor.</p>
           <div class="mt-10 flex items-center justify-center gap-x-6">
-            <router-link to="/dashboard" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</router-link>
+            <router-link to="/" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</router-link>
             <a href="#" class="text-sm/6 font-semibold text-gray-900">Contact sales <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
+
+      <!-- Email Signup Section -->
+      <div id="signup" class="relative isolate overflow-hidden">
+        <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+          <div class="absolute inset-x-0 top-1/2 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+            <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" />
+          </div>
+          <EmailSignup />
+        </div>
+      </div>
+
     </main>
 
     <!-- Footer -->
     <footer class="relative mx-auto mt-32 max-w-7xl px-6 lg:px-8">
       <div class="border-t border-gray-900/10 py-16 sm:py-24 lg:py-32">
         <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-          <img class="h-9" src="https://tailwindui.starxg.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="EduAdvisor" />
           <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div class="md:grid md:grid-cols-2 md:gap-8">
               <div>
@@ -249,83 +256,84 @@ import {
   LightBulbIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon } from '@heroicons/vue/20/solid'
+import EmailSignup from '../components/EmailSignup.vue'
 
 const navigation = [
   { name: 'Home', href: '#' },
-  { name: 'Programs', href: '#' },
-  { name: 'Resources', href: '#' },
-  { name: 'About Us', href: '#' },
+  { name: 'How It Works', href: '#features' },
+  { name: 'Universities', href: '#' },
+  { name: 'Pricing', href: '#pricing' },
 ]
 
 const features = [
   {
-    name: 'Smart Educational Planning',
-    description: 'Get personalized guidance on course selection, majors, and academic pathways based on your career goals and interests.',
+    name: 'AI-Powered Course Matching',
+    description: 'Our advanced AI technology automatically matches your home university courses with host university equivalents, saving hours of manual search.',
     icon: AcademicCapIcon,
   },
   {
-    name: 'Career Path Insights',
-    description: 'Explore potential career paths and opportunities aligned with your educational background and aspirations.',
+    name: 'Credit Transfer Analysis',
+    description: 'Get detailed similarity scores and comprehensive analysis to ensure your credits will transfer successfully.',
     icon: ChartBarIcon,
   },
   {
-    name: 'AI-Enhanced Counseling',
-    description: 'Receive tailored advice and recommendations powered by advanced AI technology to support your academic and career decisions.',
-    icon: LightBulbIcon,
+    name: 'Smart Course Database',
+    description: 'Access our extensive database of courses from partner universities, updated regularly with real-time information.',
+    icon: BookOpenIcon,
   },
   {
-    name: 'Alumni Network Analysis',
-    description: 'Learn from successful graduates with similar backgrounds and connect with mentors in your desired field.',
-    icon: UserGroupIcon,
+    name: 'Time-Saving Automation',
+    description: 'Eliminate manual course comparison and streamline your exchange program planning process.',
+    icon: ArrowPathIcon,
   },
 ]
 
 const tiers = [
   {
-    name: 'Quick Consultation',
-    id: 'tier-quick',
+    name: 'Basic Match',
+    id: 'tier-basic',
     href: '#',
     price: '$9.9',
-    description: 'One-time counseling session with basic guidance.',
+    description: 'Perfect for students just starting their exchange planning.',
     features: [
-      '60-minute consultation',
-      'Basic academic planning',
-      'Major selection guidance',
-      'Course recommendations',
-      'Basic career insights'
+      'Basic course matching',
+      '10 course comparisons/month',
+      'Basic similarity scores',
+      'Standard support',
+      'Access to course database'
     ],
     mostPopular: false,
   },
   {
-    name: 'Academic Explorer',
+    name: 'Smart Explorer',
     id: 'tier-explorer',
     href: '#',
-    price: '$29.9',
-    description: 'Comprehensive educational planning and guidance.',
+    price: '$24.9',
+    description: 'Ideal for students actively planning their exchange.',
     features: [
-      'Unlimited consultations',
-      'Detailed academic roadmap',
-      'Major & career alignment',
-      'Course planning assistance',
-      'AI-powered recommendations',
-      'Regular progress check-ins'
+      'Unlimited course matching',
+      'Detailed similarity analysis',
+      'Priority support',
+      'Credit transfer recommendations',
+      'Course history tracking',
+      'Export reports'
     ],
     mostPopular: true,
   },
   {
-    name: 'Premium Guidance',
+    name: 'Premium Transfer',
     id: 'tier-premium',
     href: '#',
-    price: '$59.9',
-    description: 'Complete educational and career counseling package.',
+    price: '$49.9',
+    description: 'Complete solution for serious exchange students.',
     features: [
       'All Explorer features',
-      'Priority counseling access',
-      'Personalized study plans',
-      'Career path planning',
-      'Alumni mentorship matching',
-      'Graduate school guidance',
-      'Interview preparation'
+      'Advanced AI matching',
+      'Custom university additions',
+      'Batch course processing',
+      'API access',
+      'Personal advisor support',
+      'Priority updates'
     ],
     mostPopular: false,
   },
@@ -334,38 +342,38 @@ const tiers = [
 const faqs = [
   {
     id: 1,
-    question: "How does your counseling service work?",
-    answer: "Our platform combines expert educational counselors with AI technology to provide personalized academic guidance. We help you make informed decisions about your education and career path through one-on-one consultations and data-driven insights.",
+    question: "How accurate is your course matching system?",
+    answer: "Our AI-powered system uses advanced language models and vector databases to analyze course descriptions, learning outcomes, and credit requirements. We typically achieve over 90% accuracy in course matching, verified by university exchange offices.",
   },
   {
     id: 2,
-    question: "What kind of guidance can I expect?",
-    answer: "We provide comprehensive educational guidance including course selection, major choices, career path alignment, study strategies, and graduate school planning. Our AI system helps personalize recommendations based on your goals and academic profile.",
+    question: "Which universities are supported?",
+    answer: "We support major universities worldwide and are constantly expanding our database. Our system can analyze and match courses from any university with available course descriptions.",
   },
   {
     id: 3,
-    question: "How do you match students with mentors?",
-    answer: "We connect students with successful alumni and professionals who share similar academic backgrounds and career interests. Our matching system considers factors like field of study, career goals, and personal interests to ensure meaningful mentorship relationships.",
+    question: "How does the credit transfer analysis work?",
+    answer: "Our system analyzes course descriptions, content, and learning outcomes to generate similarity scores. We provide detailed comparisons and recommendations to help ensure your credits will transfer successfully.",
   },
 ]
 
 const footerNavigation = {
   solutions: [
-    { name: 'Study Planning', href: '#' },
-    { name: 'Mentorship', href: '#' },
-    { name: 'Resources Library', href: '#' },
-    { name: 'Progress Analytics', href: '#' },
+    { name: 'Course Matching', href: '#' },
+    { name: 'Credit Analysis', href: '#' },
+    { name: 'University Database', href: '#' },
+    { name: 'API Access', href: '#' },
   ],
   support: [
     { name: 'Help Center', href: '#' },
-    { name: 'Knowledge Base', href: '#' },
-    { name: 'Contact Us', href: '#' },
+    { name: 'Documentation', href: '#' },
+    { name: 'Contact Support', href: '#' },
   ],
   company: [
     { name: 'About', href: '#' },
     { name: 'Blog', href: '#' },
-    { name: 'Careers', href: '#' },
     { name: 'Partners', href: '#' },
+    { name: 'Universities', href: '#' },
   ],
   legal: [
     { name: 'Privacy', href: '#' },
@@ -377,10 +385,10 @@ const footerNavigation = {
 const mobileMenuOpen = ref(false)
 
 // Hero section text
-const heroTitle = "AI-Powered Educational Counseling"
-const heroDescription = "Make informed decisions about your academic journey with personalized guidance. Our platform combines expert counseling with AI technology to help you achieve your educational and career goals."
+const heroTitle = "AI-Powered Course Credit Matching for Exchange Students"
+const heroDescription = "Stop spending hours manually searching for equivalent courses. Our AI technology automatically matches and analyzes course credits between universities, making your exchange program planning effortless."
 
 // Feature section header
-const featureTitle = "Intelligent Educational Guidance"
-const featureDescription = "Experience the future of educational counseling with our AI-enhanced platform that provides personalized academic planning and career guidance."
+const featureTitle = "Smart Course Credit Matching"
+const featureDescription = "Save time and ensure successful credit transfers with our AI-powered platform that automatically matches courses between universities and provides detailed similarity analysis."
 </script> 
