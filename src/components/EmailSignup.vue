@@ -7,7 +7,9 @@
           <p>Sign up to be among the first to try our AI-powered course matching platform.</p>
         </div>
         <form 
-          action="https://formspree.io/f/movjgbzq"
+          action="https://formkeep.com/f/6723d95e5cfd"
+          accept-charset="UTF-8"
+          enctype="multipart/form-data"
           method="POST"
           class="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center" 
           @submit.prevent="handleSubmit"
