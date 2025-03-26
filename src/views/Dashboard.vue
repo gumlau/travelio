@@ -91,7 +91,11 @@
             </Combobox>
           </div>
 
-          <div v-if="selectedHomeUniversity" class="mt-6">
+          <div v-if="selectedHomeUniversity && isLoading" class="mt-6">
+            <p class="text-sm text-gray-500">Loading courses...</p>
+          </div>
+
+          <div v-if="selectedHomeUniversity && !isLoading && homeCourses.length > 0" class="mt-6">
             <label class="block text-sm font-medium text-gray-700">Select Your Courses</label>
             <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div v-for="course in homeCourses" :key="course.code" class="relative flex items-start">
@@ -115,10 +119,11 @@
           <div class="mt-6">
             <button
               @click="findMatches"
-              :disabled="!canSearch"
+              :disabled="!canSearch || isMatching"
               class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-300"
             >
-              Find Matching Courses
+              <span v-if="isMatching">Matching Courses...</span>
+              <span v-else>Find Matching Courses</span>
             </button>
           </div>
         </div>
@@ -134,7 +139,7 @@
                 <div>
                   <h3 class="text-sm font-medium text-gray-900">{{ result.homeCourse.code }}: {{ result.homeCourse.name }}</h3>
                   <div class="mt-1">
-                    <p class="text-sm text-gray-500">Credits: {{ result.homeCourse.credits }}</p>
+                    <p class="text-sm text-gray-500">{{ selectedHomeUniversity }}</p>
                   </div>
                 </div>
                 <div class="ml-4 flex-shrink-0">
@@ -150,7 +155,7 @@
                     <div class="flex items-start justify-between">
                       <div>
                         <p class="text-sm font-medium text-gray-900">{{ match.code }}: {{ match.name }}</p>
-                        <p class="mt-1 text-sm text-gray-500">Credits: {{ match.credits }}</p>
+                        <p class="mt-1 text-sm text-gray-500">{{ selectedHostUniversity }}</p>
                       </div>
                       <div class="ml-4 flex-shrink-0">
                         <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium" :class="getMatchClass(match.similarity)">
@@ -170,7 +175,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import {
   Combobox,
@@ -182,46 +187,30 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 
-// Mock Universities
-const universities = [
-  'University of Sydney',
-  'National University of Singapore',
-  'University of California, Berkeley',
-  'University of Tokyo',
-  'University of Hong Kong'
-]
+// Universities (limited to MIT, NTU, KTH)
+const universities = ['MIT', 'NTU', 'KTH']
 
-// Mock Course Data
-const courseDatabase = {
-  'University of Sydney': [
-    { code: 'COMP2022', name: 'Models of Computation', credits: 6, description: 'Introduction to theoretical computer science' },
-    { code: 'INFO2222', name: 'Computing Technology', credits: 6, description: 'Understanding computing systems' },
-    { code: 'DATA2002', name: 'Data Analytics', credits: 6, description: 'Introduction to data science and analytics' },
-    { code: 'MATH2069', name: 'Discrete Mathematics', credits: 6, description: 'Mathematical structures in computing' }
-  ],
-  'National University of Singapore': [
-    { code: 'CS2040', name: 'Data Structures and Algorithms', credits: 4, description: 'Fundamental algorithms and data structures' },
-    { code: 'CS2103T', name: 'Software Engineering', credits: 4, description: 'Software development principles' },
-    { code: 'CS2102', name: 'Database Systems', credits: 4, description: 'Database design and implementation' },
-    { code: 'MA2213', name: 'Discrete Mathematics', credits: 4, description: 'Discrete structures and methods' }
-  ],
-  'University of California, Berkeley': [
-    { code: 'CS61A', name: 'Structure and Interpretation', credits: 4, description: 'Programming concepts and techniques' },
-    { code: 'CS61B', name: 'Data Structures', credits: 4, description: 'Fundamental data structures' },
-    { code: 'CS70', name: 'Discrete Mathematics', credits: 4, description: 'Mathematical foundations of computer science' },
-    { code: 'DATA100', name: 'Principles of Data Science', credits: 4, description: 'Introduction to data analysis' }
-  ]
-}
+// CSV course data storage
+const courseDatabase = ref({
+  'MIT': [],
+  'NTU': [],
+  'KTH': []
+})
 
-// Updated State
+// State
 const selectedHomeUniversity = ref('')
 const selectedHostUniversity = ref('')
 const selectedCourses = ref([])
 const matchResults = ref([])
 const homeQuery = ref('')
 const hostQuery = ref('')
+const isLoading = ref(false)
+const isMatching = ref(false)
 
-// New Computed Properties for Filtering Universities
+// OpenAI API key
+const apiKey = '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'
+
+// Computed Properties for Filtering Universities
 const filteredHomeUniversities = computed(() =>
   homeQuery.value === ''
     ? universities
@@ -238,65 +227,222 @@ const filteredHostUniversities = computed(() =>
       )
 )
 
-// Rest of the script stays the same
-const homeCourses = computed(() => courseDatabase[selectedHomeUniversity.value] || [])
-const hostCourses = computed(() => courseDatabase[selectedHostUniversity.value] || [])
+// Filtered courses
+const homeCourses = computed(() => courseDatabase.value[selectedHomeUniversity.value] || [])
+const hostCourses = computed(() => courseDatabase.value[selectedHostUniversity.value] || [])
 
 const canSearch = computed(() => 
   selectedHomeUniversity.value && 
   selectedHostUniversity.value && 
-  selectedCourses.value.length > 0
+  selectedCourses.value.length > 0 &&
+  !isLoading.value
 )
 
-// Methods
-const findMatches = () => {
-  matchResults.value = selectedCourses.value.map(course => {
-    const matches = hostCourses.value
-      .map(hostCourse => ({
-        ...hostCourse,
-        similarity: calculateSimilarity(course, hostCourse)
-      }))
-      .filter(match => match.similarity >= 60)
-      .sort((a, b) => b.similarity - a.similarity)
-      .slice(0, 3)
-
-    return {
-      homeCourse: course,
-      matches,
-      matchScore: matches.length > 0 ? Math.round(matches[0].similarity) : 0
+// CSV Parsing and Loading Function
+async function loadCourseData(university) {
+  isLoading.value = true
+  
+  try {
+    let csvFilePath = '';
+    
+    // Select the right CSV file based on university
+    if (university === 'MIT') {
+      csvFilePath = '/Final_MIT_Course_Data.csv';
+    } else if (university === 'NTU') {
+      csvFilePath = '/Final_NTU_Course_Data.csv';
+    } else if (university === 'KTH') {
+      csvFilePath = '/Final_KTH_Course_Data.csv';
     }
-  })
+    
+    // Fetch and parse CSV
+    const response = await fetch(csvFilePath);
+    const csvText = await response.text();
+    
+    // Parse CSV
+    const rows = csvText.split('\n');
+    const headers = rows[0].split(',');
+    
+    // Extract title and description from CSV
+    const courses = [];
+    
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i].trim() === '') continue;
+      
+      // Handle commas within quoted fields
+      const regex = /(".*?"|[^",]+)(?=\s*,|\s*$)/g;
+      const matches = [...rows[i].matchAll(regex)].map(match => match[0].replace(/^"|"$/g, ''));
+      
+      if (matches.length >= 2) {
+        const courseTitle = matches[0].trim();
+        const courseDescription = matches[1].trim();
+        
+        // Extract course code and name
+        const codeParts = courseTitle.split(' - ');
+        const code = codeParts[0].trim();
+        const name = codeParts.length > 1 ? codeParts[1].trim() : code;
+        
+        courses.push({
+          code,
+          name,
+          description: courseDescription
+        });
+      }
+    }
+    
+    // Store in the database
+    courseDatabase.value[university] = courses;
+  } catch (error) {
+    console.error('Error loading course data:', error);
+  } finally {
+    isLoading.value = false;
+  }
 }
 
-const calculateSimilarity = (course1, course2) => {
-  // Simulate course matching algorithm
-  // In a real application, this would use NLP and more sophisticated matching
-  let similarity = 0
-
-  // Match based on course name
-  if (course1.name.toLowerCase() === course2.name.toLowerCase()) {
-    similarity += 50
-  } else if (course1.name.toLowerCase().includes(course2.name.toLowerCase()) ||
-             course2.name.toLowerCase().includes(course1.name.toLowerCase())) {
-    similarity += 30
+// Watch for university selection to load courses
+watch(selectedHomeUniversity, async (newVal) => {
+  if (newVal && courseDatabase.value[newVal].length === 0) {
+    await loadCourseData(newVal);
   }
+});
 
-  // Match based on credits
-  if (course1.credits === course2.credits) {
-    similarity += 30
-  } else {
-    similarity += 20 * (1 - Math.abs(course1.credits - course2.credits) / Math.max(course1.credits, course2.credits))
+watch(selectedHostUniversity, async (newVal) => {
+  if (newVal && courseDatabase.value[newVal].length === 0) {
+    await loadCourseData(newVal);
   }
+});
 
-  // Add some randomness to simulate other factors
-  similarity += Math.random() * 20
-
-  return Math.min(Math.round(similarity), 100)
+// Course matching using OpenAI
+async function findMatches() {
+  isMatching.value = true;
+  matchResults.value = [];
+  
+  try {
+    // For each selected course
+    for (const homeCourse of selectedCourses.value) {
+      // Prepare results for this course
+      const courseMatches = {
+        homeCourse,
+        matches: [],
+        matchScore: 0
+      };
+      
+      // Get host courses to match against
+      const hostUniversityCourses = courseDatabase.value[selectedHostUniversity.value];
+      
+      // Use OpenAI API to match courses
+      const topMatches = await matchCoursesWithOpenAI(homeCourse, hostUniversityCourses);
+      
+      if (topMatches && topMatches.length > 0) {
+        courseMatches.matches = topMatches;
+        courseMatches.matchScore = Math.round(topMatches[0].similarity);
+      }
+      
+      matchResults.value.push(courseMatches);
+    }
+  } catch (error) {
+    console.error('Error during course matching:', error);
+  } finally {
+    isMatching.value = false;
+  }
 }
 
+// OpenAI matching function
+async function matchCoursesWithOpenAI(homeCourse, hostCourses) {
+  try {
+    // Prepare the prompt for OpenAI
+    let prompt = `I have a course from ${selectedHomeUniversity.value} with the following details:
+Course Code: ${homeCourse.code}
+Course Name: ${homeCourse.name}
+Course Description: ${homeCourse.description || 'Not available'}
+
+I need to find the most similar courses from ${selectedHostUniversity.value} based on content, learning outcomes, and topics covered. Here are the potential matches:
+
+`;
+
+    // Add the host courses (limit to avoid token issues)
+    const sampleSize = Math.min(hostCourses.length, 20);
+    const sampledCourses = hostCourses.slice(0, sampleSize);
+    
+    sampledCourses.forEach((course, index) => {
+      prompt += `Course ${index + 1}:
+Code: ${course.code}
+Name: ${course.name}
+Description: ${course.description || 'Not available'}
+
+`;
+    });
+
+    prompt += `For each course from ${selectedHostUniversity.value}, provide a similarity score from 0-100% based on how well it matches the ${selectedHomeUniversity.value} course in terms of content, skills taught, and learning outcomes. Return the top 3 matches in JSON format as follows:
+[
+  {
+    "code": "course_code",
+    "name": "course_name",
+    "similarity": similarity_percentage_number
+  },
+  ...
+]`;
+
+    // Call OpenAI API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.5,
+        max_tokens: 800
+      })
+    });
+
+    const data = await response.json();
+    
+    if (data.error) {
+      console.error('OpenAI API error:', data.error);
+      return [];
+    }
+    
+    // Parse the response to extract the matches
+    const content = data.choices[0].message.content;
+    const jsonMatch = content.match(/\[[\s\S]*\]/);
+    
+    if (jsonMatch) {
+      const matchesJson = JSON.parse(jsonMatch[0]);
+      return matchesJson.map(match => ({
+        ...match,
+        // Ensure these fields exist in case OpenAI doesn't return them
+        code: match.code || 'Unknown',
+        name: match.name || 'Unknown',
+        similarity: typeof match.similarity === 'number' ? match.similarity : parseInt(match.similarity) || 0
+      }));
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Error calling OpenAI API:', error);
+    return [];
+  }
+}
+
+// Load courses on component mount
+onMounted(async () => {
+  // Preload course data for all universities
+  for (const university of universities) {
+    await loadCourseData(university);
+  }
+});
+
+// Styling function for match scores
 const getMatchClass = (similarity) => {
-  if (similarity >= 80) return 'bg-green-50 text-green-700'
-  if (similarity >= 70) return 'bg-yellow-50 text-yellow-700'
-  return 'bg-gray-50 text-gray-700'
-}
+  if (similarity >= 80) return 'bg-green-50 text-green-700';
+  if (similarity >= 60) return 'bg-yellow-50 text-yellow-700';
+  return 'bg-gray-50 text-gray-700';
+};
 </script> 
