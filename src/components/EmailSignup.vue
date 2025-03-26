@@ -47,6 +47,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import router from '../router/index'
 
 const email = ref('')
 const isSubmitting = ref(false)
@@ -73,6 +74,7 @@ const handleSubmit = async (e) => {
     if (response.ok) {
       successMessage.value = 'Thank you for signing up! We will contact you soon.'
       email.value = ''
+      router.push('/dashboard')
     } else {
       const data = await response.json()
       throw new Error(data.error || 'Something went wrong')
